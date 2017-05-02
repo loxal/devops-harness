@@ -1,0 +1,3 @@
+[submodule "miner/Waves"]
+	path = miner/Waves
+	url = https://github.com/wavesplatform/Waves.git
