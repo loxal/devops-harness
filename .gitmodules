@@ -1,3 +1,6 @@
 [submodule "miner/Waves"]
 	path = miner/Waves
 	url = https://github.com/wavesplatform/Waves.git
+[submodule "miner/ccminer"]
+	path = miner/ccminer
+	url = https://github.com/tpruvot/ccminer.git
