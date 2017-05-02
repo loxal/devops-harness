@@ -4,3 +4,6 @@
 [submodule "miner/ccminer"]
 	path = miner/ccminer
 	url = https://github.com/tpruvot/ccminer.git
+[submodule "miner/nheqminer"]
+	path = miner/nheqminer
+	url = https://github.com/nicehash/nheqminer.git
