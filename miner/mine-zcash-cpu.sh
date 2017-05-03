@@ -9,6 +9,7 @@ git checkout Linux
 git pull
 sh assemble.sh
 cd ../../../Linux_cmake/nheqminer_cpu
+rm CMakeCache.txt
 cmake .
 make -j $(nproc)
 
