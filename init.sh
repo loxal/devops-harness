@@ -11,6 +11,7 @@ set_hostname() {
 set_hostname
 
 update_system() {
+    sudo cp ubuntu/etc/apt/sources.list /etc/apt/sources.list
     sudo apt update
     sudo apt upgrade
 }

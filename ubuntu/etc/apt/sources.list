@@ -1,0 +1,9 @@
+# Main
+deb http://de.archive.ubuntu.com/ubuntu xenial main restricted universe multiverse
+# Update
+deb http://de.archive.ubuntu.com/ubuntu xenial-security main restricted universe multiverse
+deb http://de.archive.ubuntu.com/ubuntu xenial-updates main restricted universe multiverse
+deb http://de.archive.ubuntu.com/ubuntu xenial-proposed main restricted universe multiverse
+deb http://de.archive.ubuntu.com/ubuntu xenial-backports main restricted universe multiverse
+# Partner
+deb http://archive.canonical.com/ubuntu xenial partner
