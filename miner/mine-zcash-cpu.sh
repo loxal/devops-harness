@@ -5,6 +5,7 @@ kill $(pidof nheqminer_cpu)
 #sudo apt-get install cmake build-essential libboost-all-dev
 
 cd nheqminer/cpu_xenoncat/Linux/asm/
+git checkout Linux
 git pull
 sh assemble.sh
 cd ../../../Linux_cmake/nheqminer_cpu
