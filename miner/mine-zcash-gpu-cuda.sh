@@ -4,7 +4,8 @@ kill $(pidof nheqminer_cuda_tromp)
 kill $(pidof ewbf.bin)
 
 #~/minion/miner/ewbf-0.3.3b.bin --user loxal.vox-gpu --server eu.zec.slushpool.com --port 4444 --pass x --fee 0 &
-./ewbf.bin --user t1M5m81rqayq3D1LcGNX5rpFdVpdZXTRXtJ.`hostname`-gpu --server zec-eu1.dwarfpool.com --port 3336 --pass x --fee 0.001 &
+#./ewbf.bin --user t1M5m81rqayq3D1LcGNX5rpFdVpdZXTRXtJ.`hostname`-gpu --server zec-eu1.dwarfpool.com --port 3336 --pass x --fee 0.001 &
+./ewbf.bin --user loxal.`hostname`-gpu --server eu.zec.slushpool.com --port 4444 --pass x --fee 0.001 &
 
 #./nheqminer_cuda_tromp -u t1M5m81rqayq3D1LcGNX5rpFdVpdZXTRXtJ -l zec-eu1.dwarfpool.com:3335 -t 0 -cd 0 &
 #./nheqminer_cuda_tromp -u loxal.sun-gpu -l eu.zec.slushpool.com:4444 -t 0 -cd 0 &
