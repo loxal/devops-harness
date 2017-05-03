@@ -48,7 +48,7 @@ teamcity_server() {
         -v ~/srv/teamcity_server:/data/teamcity_server/datadir \
         -v ~/srv/teamcity_server/logs:/opt/teamcity/logs  \
         -p 8111:8111 \
-        jetbrains/teamcity-server:2017.1
+        jetbrains/teamcity-server:latest
 }
 
 teamcity_server
@@ -59,7 +59,7 @@ teamcity_agent() {
         -e AGENT_NAME="rage" \
         --name teamcity-agent \
         -v ~/srv/teamcity_agent:/data/teamcity_agent/conf  \
-        jetbrains/teamcity-agent
+        jetbrains/teamcity-agent:latest
 
 #    docker exec teamcity-agent apt install openjfx # resolves build problem w/ JavaFx
 }
