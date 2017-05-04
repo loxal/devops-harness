@@ -20,7 +20,7 @@ update_system
 
 activate_ssh_login() {
     ssh-keygen -t rsa
-    sudo cp /root/.ssh/authorized_keys ~/.ssh/
+    sudo mv /root/.ssh/authorized_keys ~/.ssh/
 }
 
 add_user() {
@@ -73,7 +73,7 @@ setup_kernel
 
 setup_tor() {
     sudo apt install tor
-    sudo ln -s $MINION_HOME/tor-exit-notice.html /etc/tor/tor-exit-notice.html
+    sudo ln -s $MINION_HOME/ubuntu/etc/tor/tor-exit-notice.html /etc/tor/tor-exit-notice.html
     sudo vim /etc/tor/torrc
 }
 
