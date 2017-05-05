@@ -10,14 +10,6 @@ set_hostname() {
 
 set_hostname
 
-update_system() {
-    sudo cp ubuntu/etc/apt/sources.list /etc/apt/sources.list
-    sudo apt update
-    sudo apt upgrade
-}
-
-update_system
-
 activate_ssh_login() {
     ssh-keygen -t rsa
     sudo mv /root/.ssh/authorized_keys ~/.ssh/
@@ -35,12 +27,27 @@ add_user() {
 
 add_user
 
-MINION_HOME=~/minion/
-git clone https://github.com/loxal/minion.git
+update_system() {
+    sudo apt update
+    sudo apt upgrade
+    sudo apt install git
+
+    setup_minion_tool
+
+    sudo cp ubuntu/etc/apt/sources.list /etc/apt/sources.list
+}
+
+update_system
+
+setup_minion_tool() {
+    MINION_HOME=~/${MINION_USER}/
+    git clone https://github.com/loxal/minion.git
+    cd $MINION_HOME
+}
 
 install_cuda_driver() {
-    cd $MINION_HOME
-    mkdir tmp
+    mkdir $MINION_HOME/tmp
+    cd $MINION_HOME/tmp
 
     curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
     sudo dpkg -i cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
@@ -56,12 +63,10 @@ install_cuda_driver
 setup_docker() {
     sudo apt install docker.io
     sudo usermod -aG docker $MINION_USER
-#    sudo gpasswd -a $MINION_USER docker ## delete
-#    sudo systemctl restart docker
 }
 
 setup_kernel() {
-    sudo apt install linux-image-4.10.0-20-generic linux-headers-4.10.0-20 linux-headers-4.10.0-20-generic linux-image-4.10.0-20-generic linux-image-extra-4.10.0-20-generic
+    sudo apt install linux-image-4.10.0-21-generic linux-headers-4.10.0-21 linux-headers-4.10.0-21-generic linux-image-4.10.0-21-generic linux-image-extra-4.10.0-21-generic
     sudo apt remove linux-image-4.8.0-* linux-headers-4.8.0-* linux-image-extra-4.8.0-*
 
     sudo apt install snapd
