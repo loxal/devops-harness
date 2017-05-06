@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 
-CANONICAL_LIVEPATCH_TOKEN=INSERT_YOUR_TOKEN_HERE
-MINION_USER=minion
-MINION_HOME=~/${MINION_USER}/
+setup_env() {
+    CANONICAL_LIVEPATCH_TOKEN=INSERT_YOUR_TOKEN_HERE
+    MINION_USER=minion
+    MINION_HOME=~/${MINION_USER}/
+}
 
 set_hostname() {
     sudo vim /etc/hosts
@@ -28,20 +30,9 @@ add_user() {
 
 add_user
 
-update_system() {
-    sudo apt update
-    sudo apt upgrade
-    sudo apt install git
-
-    setup_minion_tool
-
-    sudo cp ubuntu/etc/apt/sources.list /etc/apt/sources.list
-}
-
-update_system
-
 setup_minion_tool() {
-    MINION_HOME=~/${MINION_USER}/
+    setup_env
+    cd
     git clone https://github.com/loxal/minion.git
 
     cd $MINION_HOME/miner
@@ -49,15 +40,24 @@ setup_minion_tool() {
     git submodule update
 }
 
+update_system() {
+    sudo apt update
+    sudo apt upgrade
+    sudo apt install git
+
+    setup_minion_tool
+
+    sudo cp $MINION_HOME/ubuntu/etc/apt/sources.list /etc/apt/sources.list
+}
+
+update_system
+
 install_cuda_driver() {
     curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
     sudo dpkg -i cuda-repo-*.deb
     rm cuda-repo-*.deb
     sudo apt update
-#    sudo apt install cuda
-#    sudo apt install cuda-core-8-0
-#    sudo apt install cuda-toolkit-8-0
-    sudo apt install cuda-drivers # sufficient for GPU mining
+    sudo apt install cuda-drivers 
 }
 
 install_cuda_driver
@@ -78,16 +78,18 @@ setup_kernel() {
 
 setup_kernel
 
+setup_compilation() {
+    sudo apt-get install cmake libboost-all-dev
+}
+
+setup_compilation
+
 setup_tor() {
     sudo apt install tor
     sudo cp $MINION_HOME/ubuntu/etc/tor/tor-exit-notice.html /etc/tor/tor-exit-notice.html
     sudo vim /etc/tor/torrc
 }
 
-setup_compilation() {
-    sudo apt-get install cmake libboost-all-dev
-}
-
-setup_compilation
+setup_tor
 
 sudo reboot
