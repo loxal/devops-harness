@@ -1,6 +1,7 @@
 version: "2"
 services:
   vault:
+#    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.crt -days 365 -nodes -subj "/C=DE/ST=Bavaria/L=Munich/O=loxal/OU=Core/CN=www.loxal.net"
     image: vault
     container_name: vault
     ports:
