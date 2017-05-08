@@ -6,7 +6,7 @@ services:
     ports:
       - "8200:8200"
     volumes:
-      - ./vault/file:/vault/file:rw
+      - ./file:/vault/file:rw
       - ./config:/vault/config:rw
     cap_add:
       - IPC_LOCK
