@@ -60,16 +60,14 @@ teamcity_agent() {
 teamcity_agent
 
 vault() {
-#    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.crt -days 365 -nodes -subj "/C=DE/ST=Bavaria/L=Munich/O=loxal/OU=Core/CN=www.loxal.net"
+#    docker rm -f vault
+#    docker run -d -t --cap-add=IPC_LOCK \
+#        -e 'VAULT_LOCAL_CONFIG={"backend": {"file": {"path": "/vault/file"}}, "default_lease_ttl": "168h", "max_lease_ttl": "720h"}' \
+#        -p 8200:8200 \
+#        --name vault \
+#        vault:latest server
 
-    docker rm -f vault
-    docker run -d -t --cap-add=IPC_LOCK \
-        -e 'VAULT_LOCAL_CONFIG={"backend": {"file": {"path": "/vault/file"}}, "default_lease_ttl": "168h", "max_lease_ttl": "720h"}' \
-        -p 8200:8200 \
-        --name vault \
-        vault:latest server
-
-    docker exec -it vault sh
+    docker-compose up -d
     export VAULT_ADDR=https://sky.loxal.net:8200
 }
 vault
