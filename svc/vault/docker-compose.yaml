@@ -7,7 +7,7 @@ services:
       - "8200:8200"
     volumes:
       - ./vault/file:/vault/file:rw
-      - ./vault/config:/vault/config:rw
+      - ./config:/vault/config:rw
     cap_add:
       - IPC_LOCK
     entrypoint: vault server -config=/vault/config/
