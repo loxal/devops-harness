@@ -6,7 +6,6 @@ run_misc() {
     ~/mine/mine-zcash-cpu.sh
     ~/mine/mine-zcash-gpu-cuda.sh
 }
-
 run_misc
 
 couchbase() {
@@ -16,7 +15,6 @@ couchbase() {
         -v ~/srv/couchbase:/opt/couchbase/var/lib/couchbase/data \
         couchbase:community
 }
-
 couchbase
 
 cassandra() {
@@ -25,21 +23,18 @@ cassandra() {
         -p 9042:9042 \
         cassandra:3
 }
-
 cassandra
 
 quizzer() {
     docker rm -f quizzer
     docker run -d -p 82:8200 --name quizzer loxal/quizzer:v1
 }
-
 quizzer
 
 service_kit() {
     docker rm -f service-kit
     docker run -d -p 80:8080 --name service-kit loxal/service-kit:v1
 }
-
 service_kit
 
 teamcity_server() {
@@ -50,7 +45,6 @@ teamcity_server() {
         -p 8111:8111 \
         jetbrains/teamcity-server:latest
 }
-
 teamcity_server
 
 teamcity_agent() {
@@ -63,8 +57,19 @@ teamcity_agent() {
 
 #    docker exec teamcity-agent apt install openjfx # resolves build problem w/ JavaFx
 }
-
 teamcity_agent
+
+vault() {
+    docker rm -f vault
+    docker run -d -t --cap-add=IPC_LOCK \
+        -e 'VAULT_LOCAL_CONFIG={"backend": {"file": {"path": "/vault/file"}}, "default_lease_ttl": "168h", "max_lease_ttl": "720h"}' \
+        -p 8200:8200 \
+        --name vault \
+        vault:0.6.5 server
+    docker exec -it vault sh
+
+}
+vault
 
 parity() {
     docker rm -f parity
@@ -79,5 +84,4 @@ parity() {
 
 #        --jsonrpc-interface '0.0.0.0'
 }
-
 parity
