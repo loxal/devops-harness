@@ -65,8 +65,9 @@ vault() {
         -e 'VAULT_LOCAL_CONFIG={"backend": {"file": {"path": "/vault/file"}}, "default_lease_ttl": "168h", "max_lease_ttl": "720h"}' \
         -p 8200:8200 \
         --name vault \
-        vault:0.6.5 server
+        vault:latest server
     docker exec -it vault sh
+    export VAULT_ADDR=http://127.0.0.1:8200
 
 }
 vault

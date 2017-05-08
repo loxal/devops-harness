@@ -7,5 +7,4 @@ setup_scala_sbt() {
     sudo apt update
     sudo apt install sbt
 }
-
 setup_scala_sbt
