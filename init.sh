@@ -4,11 +4,14 @@ setup_env() {
     CANONICAL_LIVEPATCH_TOKEN=INSERT_YOUR_TOKEN_HERE
     MINION_USER=minion
     MINION_HOME=~/${MINION_USER}/
+    HOSTNAME_NEW=new
 }
 
 set_hostname() {
     sudo vim /etc/hosts
     sudo vim /etc/hostname
+    sudo hostname $HOSTNAME_NEW
+#    exit shell to propagate hostname change?
 }
 
 set_hostname
