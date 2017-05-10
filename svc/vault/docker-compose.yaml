@@ -1,6 +1,10 @@
 version: "2"
 services:
   vault:
+#    vault status -address=https://sky.loxal.net:8200 \
+#      -ca-cert=~/my/project/loxal/minion/svc/vault/config/cert.crt \
+#      -client-cert=~/my/project/loxal/minion/svc/vault/config/cert.crt \
+#      -client-key=~/my/project/loxal/minion/svc/vault/config/key.pem
 #    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.crt -days 365 -nodes -subj "/C=DE/ST=Bavaria/L=Munich/O=loxal/OU=Core/CN=sky.loxal.net"
     image: vault
     container_name: vault

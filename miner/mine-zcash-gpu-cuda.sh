@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Download https://drive.google.com/drive/folders/0B9EPp8NdigFibDl2MmdXaTFjWDQ
+
 kill $(pidof ewbf.bin)
 
 #~/minion/miner/ewbf-0.3.3b.bin --user loxal.vox-gpu --server eu.zec.slushpool.com --port 4444 --pass x --fee 0 &
