@@ -44,6 +44,8 @@ teamcity_server() {
         -v ~/srv/teamcity_server/logs:/opt/teamcity/logs  \
         -p 8111:8111 \
         jetbrains/teamcity-server:latest
+
+#    docker exec teamcity-server /opt/teamcity/buildAgent/bin/agent.sh start
 }
 teamcity_server
 

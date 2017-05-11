@@ -7,7 +7,7 @@
   "listener": {
     "tcp": {
       "address": "0.0.0.0:8200",
-      "tls_disable": true,
+      "tls_disable": 1,
       "tls_cert_file": "/vault/config/cert.crt",
       "tls_key_file": "/vault/config/key.pem"
     }
