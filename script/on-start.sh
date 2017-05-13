@@ -3,8 +3,9 @@
 # curl -sf http://me.loxal.net/script/on-start-sky.sh | sh -s -- --yes
 
 run_misc() {
-    ~/mine/mine-zcash-cpu.sh
-    ~/mine/mine-zcash-gpu-cuda.sh
+    ~/minion/miner/mine-zcash-cpu.sh
+    ~/minion/miner/mine-zcash-gpu-cuda.sh
+    ~/buildAgent/bin/agent.sh start
 }
 run_misc
 
@@ -12,7 +13,7 @@ couchbase() {
     docker rm -f couchbase
     docker run -d --name couchbase \
         -p 8091-8094:8091-8094 -p 11210:11210 \
-        -v ~/srv/couchbase:/opt/couchbase/var/lib/couchbase/data \
+        -v ~/srv/couchbase:/opt/couchbase/var/lib/couchbase \
         couchbase:community
 }
 couchbase
@@ -21,13 +22,14 @@ cassandra() {
     docker rm -f cassandra
     docker run -it -d --name cassandra \
         -p 9042:9042 \
+        -v ~/srv/cassandra:/var/lib/cassandra \
         cassandra:3
 }
 cassandra
 
 quizzer() {
     docker rm -f quizzer
-    docker run -d -p 82:8200 --name quizzer loxal/quizzer:v1
+    docker run -d -p 82:8200 -e VAULT_TOKEN=insert_token_here --name quizzer loxal/quizzer:latest
 }
 quizzer
 
@@ -59,7 +61,7 @@ teamcity_agent() {
 
 #    docker exec teamcity-agent apt install openjfx # resolves build problem w/ JavaFx
 }
-teamcity_agent
+#teamcity_agent
 
 vault() {
 #    docker rm -f vault
@@ -87,4 +89,4 @@ parity() {
 
 #        --jsonrpc-interface '0.0.0.0'
 }
-parity
+#parity

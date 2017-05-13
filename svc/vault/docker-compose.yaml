@@ -1,4 +1,5 @@
-version: "2"
+version: "2.0"
+
 services:
   vault:
 #    vault status -address=https://sky.loxal.net:8200 \
@@ -8,6 +9,8 @@ services:
 #    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.crt -days 365 -nodes -subj "/C=DE/ST=Bavaria/L=Munich/O=loxal/OU=Core/CN=sky.loxal.net"
     image: vault
     container_name: vault
+    environment:
+      - var1=1
     ports:
       - "8200:8200"
     volumes:
