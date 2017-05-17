@@ -2,10 +2,19 @@
 
 # curl -sf http://me.loxal.net/script/on-start-sky.sh | sh -s -- --yes
 
+runNemServer() {
+    cd ~/minion/miner/nem-server
+    ./nix.runNis.sh &
+    sleep 15m
+    ./nix.runNcc.sh &
+}
+
 run_misc() {
     ~/minion/miner/mine-zcash-cpu.sh
     ~/minion/miner/mine-zcash-gpu-cuda.sh
     ~/buildAgent/bin/agent.sh start
+
+    runNemServer
 }
 run_misc
 
@@ -64,17 +73,23 @@ teamcity_agent() {
 #teamcity_agent
 
 vault() {
-#    docker rm -f vault
-#    docker run -d -t --cap-add=IPC_LOCK \
-#        -e 'VAULT_LOCAL_CONFIG={"backend": {"file": {"path": "/vault/file"}}, "default_lease_ttl": "168h", "max_lease_ttl": "720h"}' \
-#        -p 8200:8200 \
-#        --name vault \
-#        vault:latest server
-
     docker-compose up -d
     export VAULT_ADDR=https://sky.loxal.net:8200
 }
 vault
+
+elasticsearch() {
+        docker rm -f elasticsearch
+        docker rm -f elas
+        docker run --name elasticsearch \
+            -p 9200:9200 \
+            -p 9300:9300 \
+            elasticsearch:alpine
+
+#                -e transport.host=0.0.0.0 \
+#        -e discovery.zen.minimum_master_nodes=1 \
+}
+elasticsearch
 
 parity() {
     docker rm -f parity

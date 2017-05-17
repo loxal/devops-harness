@@ -2,12 +2,14 @@ version: "2.0"
 
 services:
   vault:
+# VAULT_ADDR=http://127.0.0.1:8200 vault init -key-shares=3 -key-threshold=2
+# VAULT_ADDR=http://127.0.0.1:8200 vault token-create -display-name="quizzer"
 #    vault status -address=https://sky.loxal.net:8200 \
 #      -ca-cert=~/my/project/loxal/minion/svc/vault/config/cert.crt \
 #      -client-cert=~/my/project/loxal/minion/svc/vault/config/cert.crt \
 #      -client-key=~/my/project/loxal/minion/svc/vault/config/key.pem
 #    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.crt -days 365 -nodes -subj "/C=DE/ST=Bavaria/L=Munich/O=loxal/OU=Core/CN=sky.loxal.net"
-    image: vault
+    image: vault:latest
     container_name: vault
     environment:
       - var1=1
