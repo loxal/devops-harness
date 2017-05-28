@@ -91,6 +91,13 @@ elasticsearch() {
 }
 elasticsearch
 
+heat_ledger() {
+    cd ~/minion/miner/heatledger-*
+#    screen -mS heatledger bin/heatledger
+    bin/heatledger & 
+}
+heat_ledger
+
 parity() {
     docker rm -f parity
     docker run -d -t --name parity  \

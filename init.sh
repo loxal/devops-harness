@@ -13,7 +13,6 @@ set_hostname() {
     sudo hostname $HOSTNAME_NEW
 #    exit shell to propagate hostname change?
 }
-
 set_hostname
 
 activate_ssh_login() {
@@ -30,7 +29,6 @@ add_user() {
 
     activate_ssh_login
 }
-
 add_user
 
 setup_minion_tool() {
@@ -47,12 +45,13 @@ update_system() {
     sudo apt update
     sudo apt upgrade
     sudo apt install git
+    sudo apt install screen
 
     setup_minion_tool
 
     sudo cp $MINION_HOME/ubuntu/etc/apt/sources.list /etc/apt/sources.list
+    sudo apt install unattended-upgrades # check if already pre-installed
 }
-
 update_system
 
 install_cuda_driver() {
@@ -62,7 +61,6 @@ install_cuda_driver() {
     sudo apt update
     sudo apt install cuda-drivers 
 }
-
 install_cuda_driver
 
 setup_docker() {
@@ -78,13 +76,11 @@ setup_kernel() {
     sudo snap install canonical-livepatch
     sudo canonical-livepatch enable $CANONICAL_LIVEPATCH_TOKEN
 }
-
 setup_kernel
 
 setup_compilation() {
     sudo apt-get install cmake libboost-all-dev
 }
-
 setup_compilation
 
 setup_tor() {
@@ -92,7 +88,36 @@ setup_tor() {
     sudo cp $MINION_HOME/ubuntu/etc/tor/tor-exit-notice.html /etc/tor/tor-exit-notice.html
     sudo vim /etc/tor/torrc
 }
-
 setup_tor
+
+setup_heat_ledger() {
+#    https://heatbrowser.com/report.html
+#    http://heatnodes.org/?page_id=329
+#    https://heatwallet.com/nodes.cgi
+
+    HOST_NAME=`hostname`.loxal.net
+    SECRET_PHRASE_WITHOUT_BLANK_SPACES=INSERT_SECRET_PHRASE
+    HEAT_API_KEY=INSERT_API_KEY
+
+    sudo apt install openjdk-8-jdk-headless -y -q
+    sudo apt-get install screen -y -q
+    sudo apt-get install unzip -y -q
+    cd ~/minion/miner
+    curl -LO https://github.com/Heat-Ledger-Ltd/heatledger/releases/download/v1.0.1/heatledger-1.0.1.zip
+    unzip heatledger-*.zip
+    cd heatledger-*
+
+    cp conf/heat-default.properties conf/heat.properties
+    vim conf/heat.properties
+
+    screen -mS heatledger bin/heatledger
+
+    # on sky.loxal.net or any other server running a HEAT node
+    # curl http://localhost:7733/api/v1/tools/hallmark/encode/${HOST_NAME}/200/2016-01-01/${SECRET_PHRASE_WITHOUT_BLANK_SPACES} # obtain hallmark
+
+    # wait until chain is synced
+    curl http://localhost:7733/api/v1/mining/start/${SECRET_PHRASE_WITHOUT_BLANK_SPACES}?api_key=${HEAT_API_KEY} # start forging
+}
+setup_heat_ledger
 
 sudo reboot
