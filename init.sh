@@ -90,6 +90,16 @@ setup_tor() {
 }
 setup_tor
 
+setup_nxt_ledger() {
+    cd ~/minion/miner
+    curl -LO https://bitbucket.org/JeanLucPicard/nxt/downloads/nxt-client-1.11.5.zip
+    unzip nxt-client-*.zip
+    cd nxt
+    ./run.sh
+#    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
+}
+setup_nxt_ledger
+
 setup_heat_ledger() {
 #    https://heatbrowser.com/report.html
 #    http://heatnodes.org/?page_id=329
@@ -98,23 +108,29 @@ setup_heat_ledger() {
     HOST_NAME=`hostname`.loxal.net
     SECRET_PHRASE_WITHOUT_BLANK_SPACES=INSERT_SECRET_PHRASE
     HEAT_API_KEY=INSERT_API_KEY
+    HEAT_VERSION=v1.0.4
 
     sudo apt install openjdk-8-jdk-headless -y -q
     sudo apt-get install screen -y -q
     sudo apt-get install unzip -y -q
     cd ~/minion/miner
-    curl -LO https://github.com/Heat-Ledger-Ltd/heatledger/releases/download/v1.0.1/heatledger-1.0.1.zip
+    curl -LO https://github.com/Heat-Ledger-Ltd/heatledger/releases/download/${HEAT_VERSION}/heatledger-${HEAT_VERSION}.zip
     unzip heatledger-*.zip
     cd heatledger-*
 
-    cp conf/heat-default.properties conf/heat.properties
+    # download blockchain
+    curl -LO https://heatbrowser.com/blockchain.tgz
+    tar xzvf blockchain.tgz
+
+#    cp conf/heat-default.properties conf/heat.properties
+#    cp ../heatledger-vPrevious/conf/heat-default.properties conf/heat.properties
     vim conf/heat.properties
 
     screen -mS heatledger bin/heatledger
 
     # on sky.loxal.net or any other server running a HEAT node
     # curl http://localhost:7733/api/v1/tools/hallmark/encode/${HOST_NAME}/200/2016-01-01/${SECRET_PHRASE_WITHOUT_BLANK_SPACES} # obtain hallmark
-
+    
     # wait until chain is synced
     curl http://localhost:7733/api/v1/mining/start/${SECRET_PHRASE_WITHOUT_BLANK_SPACES}?api_key=${HEAT_API_KEY} # start forging
 }
