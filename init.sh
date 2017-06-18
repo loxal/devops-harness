@@ -69,8 +69,11 @@ setup_docker() {
 }
 
 setup_kernel() {
-    sudo apt install linux-image-4.10.0-21-generic linux-headers-4.10.0-21 linux-headers-4.10.0-21-generic linux-image-4.10.0-21-generic linux-image-extra-4.10.0-21-generic
+    OLD_KERNEL_VERSION=4.10.0-21
+    KERNEL_VERSION=4.10.0-23
+    sudo apt install linux-image-$KERNEL_VERSION-generic linux-headers-$KERNEL_VERSION linux-headers-$KERNEL_VERSION-generic linux-image-$KERNEL_VERSION-generic linux-image-extra-$KERNEL_VERSION-generic
     sudo apt remove linux-image-4.8.0-* linux-headers-4.8.0-* linux-image-extra-4.8.0-*
+    sudo apt remove linux-image-$OLD_KERNEL_VERSION-* linux-headers-$OLD_KERNEL_VERSION-* linux-image-extra-$OLD_KERNEL_VERSION-*
 
     sudo apt install snapd
     sudo snap install canonical-livepatch
