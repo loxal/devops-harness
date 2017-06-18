@@ -18,6 +18,12 @@ run_misc() {
 }
 run_misc
 
+runNxtServer() {
+    cd ~/minion/miner/nxt
+    ./run.sh &
+#    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
+}
+
 couchbase() {
     docker rm -f couchbase
     docker run -d --name couchbase \

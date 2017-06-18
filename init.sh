@@ -10,7 +10,8 @@ setup_env() {
 set_hostname() {
     sudo vim /etc/hosts
     sudo vim /etc/hostname
-    sudo hostname $HOSTNAME_NEW
+    sudo hostname $HOSTNAME_NEW  # still required, considering “sudo hostname -F /etc/hostname”?
+    sudo hostname -F /etc/hostname # the only command actually required?
 #    exit shell to propagate hostname change?
 }
 set_hostname
@@ -98,7 +99,7 @@ setup_nxt_ledger() {
     curl -LO https://bitbucket.org/JeanLucPicard/nxt/downloads/nxt-client-1.11.5.zip
     unzip nxt-client-*.zip
     cd nxt
-    ./run.sh
+    ./run.sh &
 #    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
 }
 setup_nxt_ledger
