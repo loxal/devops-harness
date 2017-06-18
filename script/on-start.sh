@@ -73,6 +73,7 @@ teamcity_agent() {
 #teamcity_agent
 
 vault() {
+    cd ~/minion/svc/vault
     docker-compose up -d
     export VAULT_ADDR=https://sky.loxal.net:8200
 }
