@@ -7,6 +7,7 @@ runNemServer() {
     ./nix.runNis.sh &
     sleep 15m
     ./nix.runNcc.sh &
+    # start mining in browser
 }
 
 run_misc() {
