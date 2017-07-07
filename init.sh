@@ -3,15 +3,14 @@
 setup_env() {
     CANONICAL_LIVEPATCH_TOKEN=INSERT_YOUR_TOKEN_HERE
     MINION_USER=minion
-    MINION_HOME=~/${MINION_USER}/
+    MINION_HOME=~/minion/
     HOSTNAME_NEW=new
 }
 
 set_hostname() {
     sudo vim /etc/hosts
     sudo vim /etc/hostname
-    sudo hostname $HOSTNAME_NEW  # still required, considering “sudo hostname -F /etc/hostname”?
-    sudo hostname -F /etc/hostname # the only command actually required?
+    sudo hostname -F /etc/hostname 
 #    exit shell to propagate hostname change?
 }
 set_hostname
@@ -19,6 +18,7 @@ set_hostname
 activate_ssh_login() {
     ssh-keygen -t rsa
     sudo mv /root/.ssh/authorized_keys ~/.ssh/
+    sudo chown alex:alex ~/.ssh/authorized_keys
 }
 
 add_user() {
@@ -44,14 +44,14 @@ setup_minion_tool() {
 
 update_system() {
     sudo apt update
-    sudo apt upgrade
-    sudo apt install git
-    sudo apt install screen
+    sudo apt upgrade -y
+    sudo apt install -y git
+    sudo apt install -y screen
 
     setup_minion_tool
 
     sudo cp $MINION_HOME/ubuntu/etc/apt/sources.list /etc/apt/sources.list
-    sudo apt install unattended-upgrades # check if already pre-installed
+    sudo apt install -y unattended-upgrades
 }
 update_system
 
@@ -60,35 +60,23 @@ install_cuda_driver() {
     sudo dpkg -i cuda-repo-*.deb
     rm cuda-repo-*.deb
     sudo apt update
-    sudo apt install cuda-drivers 
+    sudo apt install -y cuda-drivers
 }
 install_cuda_driver
 
 setup_docker() {
-    sudo apt install docker.io
+    sudo apt install -y docker.io
     sudo usermod -aG docker $MINION_USER
 }
-
-setup_kernel() {
-    OLD_KERNEL_VERSION=4.10.0-21
-    KERNEL_VERSION=4.10.0-23
-    sudo apt install linux-image-$KERNEL_VERSION-generic linux-headers-$KERNEL_VERSION linux-headers-$KERNEL_VERSION-generic linux-image-$KERNEL_VERSION-generic linux-image-extra-$KERNEL_VERSION-generic
-    sudo apt remove linux-image-4.8.0-* linux-headers-4.8.0-* linux-image-extra-4.8.0-*
-    sudo apt remove linux-image-$OLD_KERNEL_VERSION-* linux-headers-$OLD_KERNEL_VERSION-* linux-image-extra-$OLD_KERNEL_VERSION-*
-
-    sudo apt install snapd
-    sudo snap install canonical-livepatch
-    sudo canonical-livepatch enable $CANONICAL_LIVEPATCH_TOKEN
-}
-setup_kernel
+setup_docker
 
 setup_compilation() {
-    sudo apt-get install cmake libboost-all-dev
+    sudo apt-get install -y cmake libboost-all-dev
 }
 setup_compilation
 
 setup_tor() {
-    sudo apt install tor
+    sudo apt install -y tor
     sudo cp $MINION_HOME/ubuntu/etc/tor/tor-exit-notice.html /etc/tor/tor-exit-notice.html
     sudo vim /etc/tor/torrc
 }
@@ -134,10 +122,23 @@ setup_heat_ledger() {
 
     # on sky.loxal.net or any other server running a HEAT node
     # curl http://localhost:7733/api/v1/tools/hallmark/encode/${HOST_NAME}/200/2016-01-01/${SECRET_PHRASE_WITHOUT_BLANK_SPACES} # obtain hallmark
-    
+
     # wait until chain is synced
     curl http://localhost:7733/api/v1/mining/start/${SECRET_PHRASE_WITHOUT_BLANK_SPACES}?api_key=${HEAT_API_KEY} # start forging, replace secret phrase’ spaces with “%20”
 }
 setup_heat_ledger
+
+setup_kernel() {
+    OLD_KERNEL_VERSION=4.10.0-27
+    KERNEL_VERSION=4.10.0-27
+    sudo apt remove -y linux-image-$OLD_KERNEL_VERSION-* linux-headers-$OLD_KERNEL_VERSION-* linux-image-extra-$OLD_KERNEL_VERSION-*
+    sudo apt remove -y linux-image-4.8.0-* linux-headers-4.8.0-* linux-image-extra-4.8.0-*
+    sudo apt install -y linux-image-$KERNEL_VERSION-generic linux-headers-$KERNEL_VERSION linux-headers-$KERNEL_VERSION-generic linux-image-$KERNEL_VERSION-generic linux-image-extra-$KERNEL_VERSION-generic
+
+    sudo apt install -y snapd
+    sudo snap install canonical-livepatch
+    sudo canonical-livepatch enable $CANONICAL_LIVEPATCH_TOKEN
+}
+setup_kernel
 
 sudo reboot

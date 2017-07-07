@@ -2,26 +2,11 @@
 
 # curl -sf http://me.loxal.net/script/on-start-sky.sh | sh -s -- --yes
 
-runNemServer() {
-    cd ~/minion/miner/nem-server
-    ./nix.runNis.sh &
-    sleep 15m
-    ./nix.runNcc.sh &
-    # start mining in browser
-}
-
-run_misc() {
-    ~/minion/miner/mine-zcash-cpu.sh
-    ~/minion/miner/mine-zcash-gpu-cuda.sh
-    ~/buildAgent/bin/agent.sh start
-
-    runNemServer
-}
-run_misc
-
 runNxtServer() {
     cd ~/minion/miner/nxt
     ./run.sh &
+
+# Start forging...
 #    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
 }
 
@@ -83,6 +68,8 @@ vault() {
     cd ~/minion/svc/vault
     docker-compose up -d
     export VAULT_ADDR=https://sky.loxal.net:8200
+
+    vault write secret/quizzer @credentials.json
 }
 vault
 
@@ -102,9 +89,28 @@ elasticsearch
 heat_ledger() {
     cd ~/minion/miner/heatledger-*
 #    screen -mS heatledger bin/heatledger
-    bin/heatledger & 
+    bin/heatledger &
+
+#     curl 'http://localhost:7733/api/v1/mining/start/secret%20phrase?api_key=PASSWORD'
 }
 heat_ledger
+
+runNemServer() {
+    cd ~/minion/miner/nem-server
+    ./nix.runNis.sh &
+    sleep 15m
+    ./nix.runNcc.sh &
+    # start mining in browser
+}
+
+run_misc() {
+    ~/minion/miner/mine-zcash-cpu.sh
+    ~/minion/miner/mine-zcash-gpu-cuda.sh
+    ~/buildAgent/bin/agent.sh start
+
+    runNemServer
+}
+run_misc
 
 parity() {
     docker rm -f parity
