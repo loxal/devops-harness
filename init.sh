@@ -2,16 +2,16 @@
 
 setup_env() {
     CANONICAL_LIVEPATCH_TOKEN=INSERT_YOUR_TOKEN_HERE
-    MINION_USER=minion
+    MINION_USER=alex
     MINION_HOME=~/minion/
-    HOSTNAME_NEW=new
+    HOSTNAME_NEW=sky
 }
 
 set_hostname() {
     sudo vim /etc/hosts
     sudo vim /etc/hostname
-    sudo hostname -F /etc/hostname 
-#    exit shell to propagate hostname change?
+    sudo hostname -F /etc/hostname
+    exit
 }
 set_hostname
 
@@ -62,7 +62,7 @@ install_cuda_driver() {
     sudo apt update
     sudo apt install -y cuda-drivers
 }
-install_cuda_driver
+#install_cuda_driver
 
 setup_docker() {
     sudo apt install -y docker.io
@@ -82,7 +82,26 @@ setup_tor() {
 }
 setup_tor
 
+setup_kernel() {
+    OLD_KERNEL_VERSION=4.10.0-27
+    KERNEL_VERSION=4.8.0-58
+    sudo apt remove -y linux-image-$OLD_KERNEL_VERSION-* linux-headers-$OLD_KERNEL_VERSION-* linux-image-extra-$OLD_KERNEL_VERSION-*
+    sudo apt remove -y linux-image-4.8.0-* linux-headers-4.8.0-* linux-image-extra-4.8.0-*
+    sudo apt install -y linux-image-$KERNEL_VERSION-generic linux-headers-$KERNEL_VERSION linux-headers-$KERNEL_VERSION-generic linux-image-$KERNEL_VERSION-generic linux-image-extra-$KERNEL_VERSION-generic
+
+    sudo apt install -y snapd
+    sudo snap install canonical-livepatch
+    sudo canonical-livepatch enable $CANONICAL_LIVEPATCH_TOKEN
+
+    sudo reboot
+}
+setup_kernel
+
 setup_nxt_ledger() {
+    sudo apt install openjdk-8-jdk-headless -y -q
+    sudo apt-get install screen -y -q
+    sudo apt-get install unzip -y -q
+    
     cd ~/minion/miner
     curl -LO https://bitbucket.org/JeanLucPicard/nxt/downloads/nxt-client-1.11.5.zip
     unzip nxt-client-*.zip
@@ -127,18 +146,3 @@ setup_heat_ledger() {
     curl http://localhost:7733/api/v1/mining/start/${SECRET_PHRASE_WITHOUT_BLANK_SPACES}?api_key=${HEAT_API_KEY} # start forging, replace secret phrase’ spaces with “%20”
 }
 setup_heat_ledger
-
-setup_kernel() {
-    OLD_KERNEL_VERSION=4.10.0-27
-    KERNEL_VERSION=4.10.0-27
-    sudo apt remove -y linux-image-$OLD_KERNEL_VERSION-* linux-headers-$OLD_KERNEL_VERSION-* linux-image-extra-$OLD_KERNEL_VERSION-*
-    sudo apt remove -y linux-image-4.8.0-* linux-headers-4.8.0-* linux-image-extra-4.8.0-*
-    sudo apt install -y linux-image-$KERNEL_VERSION-generic linux-headers-$KERNEL_VERSION linux-headers-$KERNEL_VERSION-generic linux-image-$KERNEL_VERSION-generic linux-image-extra-$KERNEL_VERSION-generic
-
-    sudo apt install -y snapd
-    sudo snap install canonical-livepatch
-    sudo canonical-livepatch enable $CANONICAL_LIVEPATCH_TOKEN
-}
-setup_kernel
-
-sudo reboot
