@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
 kill $(pidof nheqminer_cpu)
-#git clone -b Linux https://github.com/nicehash/nheqminer.git; 
-#sudo apt-get install cmake build-essential libboost-all-dev
+rm -rf nheqminer
+git clone -b Linux git@github.com:nicehash/nheqminer.git
+sudo apt install -y cmake build-essential libboost-all-dev 
 
-cd nheqminer/cpu_xenoncat/Linux/asm/
-git checkout Linux
-git pull
+cd nheqminer/cpu_xenoncat/Linux/asm
 sh assemble.sh
 cd ../../../Linux_cmake/nheqminer_cpu
-rm CMakeCache.txt
 cmake .
 make -j $(nproc)
 
