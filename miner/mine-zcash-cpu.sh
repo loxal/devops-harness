@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-kill $(pidof nheqminer_cpu)
+cd ~/minion/miner
 rm -rf nheqminer
-git clone -b Linux git@github.com:nicehash/nheqminer.git
-sudo apt install -y cmake build-essential libboost-all-dev 
+git clone -b Linux https://github.com/nicehash/nheqminer.git
 
 cd nheqminer/cpu_xenoncat/Linux/asm
 sh assemble.sh
@@ -11,6 +10,7 @@ cd ../../../Linux_cmake/nheqminer_cpu
 cmake .
 make -j $(nproc)
 
+kill $(pidof nheqminer_cpu)
 #./nheqminer_cpu -u t1M5m81rqayq3D1LcGNX5rpFdVpdZXTRXtJ.`hostname`-cpu -l zec-eu1.dwarfpool.com:3335 -t 7 &
 ~/minion/miner/nheqminer/Linux_cmake/nheqminer_cpu/nheqminer_cpu -u loxal.`hostname`-cpu -l eu.zec.slushpool.com:4444 -t $(nproc) &
 #./nheqminer_cpu -u 1CfgS6783Fb8GBEtPaa4DGtDypkC133nAw -l equihash.eu.nicehash.com:3357 -t 6 &

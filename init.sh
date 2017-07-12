@@ -17,12 +17,12 @@ set_hostname
 
 activate_ssh_login() {
     ssh-keygen -t rsa
-    sudo mv /root/.ssh/authorized_keys ~/.ssh/
+    sudo cp /root/.ssh/authorized_keys ~/.ssh/
     sudo chown alex:alex ~/.ssh/authorized_keys
 }
 
 add_user() {
-    sudo adduser --gecos "" $MINION_USER
+    sudo adduser --gecos "" $MINION_USER # interactive
     sudo usermod -aG sudo $MINION_USER
     sudo usermod --lock $MINION_USER
     sudo visudo # %sudo   ALL=(ALL:ALL) NOPASSWD:ALL
@@ -70,10 +70,10 @@ setup_docker() {
 }
 setup_docker
 
-setup_compilation() {
-    sudo apt-get install -y cmake libboost-all-dev
+setup_essentials() {
+    sudo apt-get install -y cmake libboost-all-dev screen unzip openjdk-8-jdk-headless cmake build-essential libboost-all-dev
 }
-setup_compilation
+setup_essentials
 
 setup_tor() {
     sudo apt install -y tor
@@ -83,11 +83,11 @@ setup_tor() {
 setup_tor
 
 setup_kernel() {
-    OLD_KERNEL_VERSION=4.10.0-27
-    KERNEL_VERSION=4.8.0-58
+    OLD_KERNEL_VERSION=4.8.0-58
+    KERNEL_VERSION=4.10.0-27
+    sudo apt install -y linux-image-$KERNEL_VERSION-generic linux-headers-$KERNEL_VERSION linux-headers-$KERNEL_VERSION-generic linux-image-$KERNEL_VERSION-generic linux-image-extra-$KERNEL_VERSION-generic
     sudo apt remove -y linux-image-$OLD_KERNEL_VERSION-* linux-headers-$OLD_KERNEL_VERSION-* linux-image-extra-$OLD_KERNEL_VERSION-*
     sudo apt remove -y linux-image-4.8.0-* linux-headers-4.8.0-* linux-image-extra-4.8.0-*
-    sudo apt install -y linux-image-$KERNEL_VERSION-generic linux-headers-$KERNEL_VERSION linux-headers-$KERNEL_VERSION-generic linux-image-$KERNEL_VERSION-generic linux-image-extra-$KERNEL_VERSION-generic
 
     sudo apt install -y snapd
     sudo snap install canonical-livepatch
@@ -98,10 +98,6 @@ setup_kernel() {
 setup_kernel
 
 setup_nxt_ledger() {
-    sudo apt install openjdk-8-jdk-headless -y -q
-    sudo apt-get install screen -y -q
-    sudo apt-get install unzip -y -q
-    
     cd ~/minion/miner
     curl -LO https://bitbucket.org/JeanLucPicard/nxt/downloads/nxt-client-1.11.5.zip
     unzip nxt-client-*.zip
@@ -119,19 +115,17 @@ setup_heat_ledger() {
     HOST_NAME=`hostname`.loxal.net
     SECRET_PHRASE_WITHOUT_BLANK_SPACES=INSERT_SECRET_PHRASE
     HEAT_API_KEY=INSERT_API_KEY
-    HEAT_VERSION=v1.0.4
+    HEAT_VERSION=1.1.0
 
-    sudo apt install openjdk-8-jdk-headless -y -q
-    sudo apt-get install screen -y -q
-    sudo apt-get install unzip -y -q
     cd ~/minion/miner
-    curl -LO https://github.com/Heat-Ledger-Ltd/heatledger/releases/download/${HEAT_VERSION}/heatledger-${HEAT_VERSION}.zip
+    curl -LO https://github.com/Heat-Ledger-Ltd/heatledger/releases/download/v${HEAT_VERSION}/heatledger-${HEAT_VERSION}.zip
     unzip heatledger-*.zip
     cd heatledger-*
 
     # download blockchain
     curl -LO https://heatbrowser.com/blockchain.tgz
     tar xzvf blockchain.tgz
+    rm blockchain.tgz
 
 #    cp conf/heat-default.properties conf/heat.properties
 #    cp ../heatledger-vPrevious/conf/heat-default.properties conf/heat.properties
