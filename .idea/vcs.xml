@@ -2,8 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/miner/Waves" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/miner/ccminer" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/miner/nheqminer" vcs="Git" />
   </component>
 </project>

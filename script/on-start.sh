@@ -10,6 +10,7 @@ runNxtServer() {
 #    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
 }
 
+
 couchbase() {
     docker rm -f couchbase
     docker run -d --name couchbase \
@@ -48,6 +49,7 @@ teamcity_server() {
         -p 8111:8111 \
         jetbrains/teamcity-server:2017.1.2
 
+    ~/buildAgent/bin/agent.sh start # run agent on host machine
 #    docker exec teamcity-server /opt/teamcity/buildAgent/bin/agent.sh start
 }
 teamcity_server
@@ -60,23 +62,23 @@ teamcity_agent() {
         -v ~/srv/teamcity_agent:/data/teamcity_agent/conf  \
         jetbrains/teamcity-agent:latest
 
-#    docker exec teamcity-agent apt install openjfx # resolves build problem w/ JavaFx
+#    docker exec teamcity-agent "apt install openjfx" # resolves build problem w/ JavaFx
 }
 #teamcity_agent
 
 vault() {
     cd ~/minion/svc/vault
     docker-compose up -d
-    export VAULT_ADDR=https://sky.loxal.net:8200
+    # docker exec -it vault sh
+    export VAULT_ADDR=http://localhost:8200
 
-    vault write secret/quizzer @credentials.json
+#    vault write secret/quizzer @credentials.json
 }
 vault
 
 elasticsearch() {
         docker rm -f elasticsearch
-        docker rm -f elas
-        docker run --name elasticsearch \
+        docker run -d --name elasticsearch \
             -p 9200:9200 \
             -p 9300:9300 \
             elasticsearch:alpine
@@ -105,8 +107,6 @@ runNemServer() {
 
 run_misc() {
     ~/minion/miner/mine-zcash-cpu.sh
-    ~/minion/miner/mine-zcash-gpu-cuda.sh
-    ~/buildAgent/bin/agent.sh start
 
     runNemServer
 }

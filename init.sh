@@ -65,7 +65,7 @@ install_cuda_driver() {
 #install_cuda_driver
 
 setup_docker() {
-    sudo apt install -y docker.io
+    sudo apt install -y docker.io docker-compose
     sudo usermod -aG docker $MINION_USER
 }
 setup_docker
@@ -128,7 +128,7 @@ setup_heat_ledger() {
     rm blockchain.tgz
 
 #    cp conf/heat-default.properties conf/heat.properties
-#    cp ../heatledger-vPrevious/conf/heat-default.properties conf/heat.properties
+#    cp ../heatledger-vPrevious/conf/heat.properties conf/heat.properties
     vim conf/heat.properties
 
     screen -mS heatledger bin/heatledger
