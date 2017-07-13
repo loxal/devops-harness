@@ -71,7 +71,10 @@ setup_docker() {
 setup_docker
 
 setup_essentials() {
-    sudo apt-get install -y cmake libboost-all-dev screen unzip openjdk-8-jdk-headless cmake build-essential libboost-all-dev
+    sudo apt install -y cmake libboost-all-dev \
+        screen unzip openjdk-8-jdk-headless \
+        cmake build-essential libboost-all-dev \
+        whois
 }
 setup_essentials
 
