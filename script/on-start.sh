@@ -86,7 +86,7 @@ elasticsearch() {
 #                -e transport.host=0.0.0.0 \
 #        -e discovery.zen.minimum_master_nodes=1 \
 }
-elasticsearch
+#elasticsearch # very dangerous when run without password protection
 
 heat_ledger() {
     cd ~/minion/miner/heatledger-*
