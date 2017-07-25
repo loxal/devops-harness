@@ -11,14 +11,14 @@ runNxtServer() {
 }
 
 
-couchbase() {
-    docker rm -f couchbase
-    docker run -d --name couchbase \
-        -p 8091-8094:8091-8094 -p 11210:11210 \
-        -v ~/srv/couchbase:/opt/couchbase/var/lib/couchbase \
-        couchbase:community
-}
-couchbase
+#couchbase() {
+#    docker rm -f couchbase
+#    docker run -d --name couchbase \
+#        -p 8091-8094:8091-8094 -p 11210:11210 \
+#        -v ~/srv/couchbase:/opt/couchbase/var/lib/couchbase \
+#        couchbase:community
+#}
+#couchbase
 
 cassandra() {
     docker rm -f cassandra
@@ -43,11 +43,7 @@ service_kit
 
 teamcity_server() {
     docker rm -f teamcity-server
-    docker run -d -t --name teamcity-server  \
-        -v ~/srv/teamcity_server:/data/teamcity_server/datadir \
-        -v ~/srv/teamcity_server/logs:/opt/teamcity/logs  \
-        -p 8111:8111 \
-        jetbrains/teamcity-server:2017.1.2
+    docker run -d -t --name teamcity-server -v ~/srv/teamcity_server:/data/teamcity_server/datadir -v ~/srv/teamcity_server/logs:/opt/teamcity/logs -p 8111:8111 jetbrains/teamcity-server:2017.1.3
 
     ~/buildAgent/bin/agent.sh start # run agent on host machine
 #    docker exec teamcity-server /opt/teamcity/buildAgent/bin/agent.sh start
