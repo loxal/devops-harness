@@ -100,11 +100,10 @@ runNemServer() {
     ./nix.runNcc.sh &
     # start mining in browser
 }
+runNemServer
 
 run_misc() {
-    ~/minion/miner/mine-zcash-cpu.sh
-
-    runNemServer
+    ~/minion/miner/mine-zcash-cpu.sh &
 }
 run_misc
 
