@@ -41,6 +41,12 @@ teamcity_server() {
 }
 teamcity_server
 
+muctool() {
+    docker rm -f muctool
+    docker run -d -p 80:8300 -p 443:8443 --env MY_ENV=muctool --env MY_ENV_SINGLE --label jvm_lang=kotlin --label sans-backing_service --name muctool loxal/muctool
+}
+muctool
+
 #teamcity_agent() {
 #    docker rm -f teamcity-agent
 #    docker run -d -t -e SERVER_URL="http://ci.loxal.net:8111" \
@@ -53,15 +59,15 @@ teamcity_server
 #}
 #teamcity_agent
 
-vault() {
-    cd ~/minion/svc/vault
-    docker-compose up -d
-    # docker exec -it vault sh
-    export VAULT_ADDR=http://localhost:8200
-
-#    vault write secret/quizzer @credentials.json
-}
-vault
+#vault() {
+#    cd ~/minion/svc/vault
+#    docker-compose up -d
+#    # docker exec -it vault sh
+#    export VAULT_ADDR=http://localhost:8200
+#
+##    vault write secret/quizzer @credentials.json
+#}
+#vault
 
 #elasticsearch() {
 #        docker rm -f elasticsearch
