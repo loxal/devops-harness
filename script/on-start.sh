@@ -97,6 +97,7 @@ heat_ledger() {
     nohup bin/heatledger &
     echo "heat_ledger started"
 
+# Start forging...
 #     curl 'http://localhost:7733/api/v1/mining/start/secret%20phrase?api_key=PASSWORD'
 }
 heat_ledger
