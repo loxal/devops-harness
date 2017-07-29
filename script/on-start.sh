@@ -112,6 +112,8 @@ run_misc() {
 }
 run_misc
 
+echo "on-start script executed"
+
 #parity() {
 #    docker rm -f parity
 #    docker run -d -t --name parity  \
