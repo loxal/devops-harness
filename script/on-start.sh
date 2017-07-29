@@ -20,20 +20,20 @@ runNxtServer() {
 #}
 #couchbase
 
-cassandra() {
-    docker rm -f cassandra
-    docker run -it -d --name cassandra \
-        -p 9042:9042 \
-        -v ~/srv/cassandra:/var/lib/cassandra \
-        cassandra:3
-}
-cassandra
+#cassandra() {
+#    docker rm -f cassandra
+#    docker run -it -d --name cassandra \
+#        -p 9042:9042 \
+#        -v ~/srv/cassandra:/var/lib/cassandra \
+#        cassandra:3
+#}
+#cassandra
 
-quizzer() {
-    docker rm -f quizzer
-    docker run -d -p 82:8200 -e VAULT_TOKEN=insert_token_here --name quizzer loxal/quizzer:latest
-}
-quizzer
+#quizzer() {
+#    docker rm -f quizzer
+#    docker run -d -p 82:8200 -e VAULT_TOKEN=insert_token_here --name quizzer loxal/quizzer:latest
+#}
+#quizzer
 
 service_kit() {
     docker rm -f service-kit
@@ -50,16 +50,16 @@ teamcity_server() {
 }
 teamcity_server
 
-teamcity_agent() {
-    docker rm -f teamcity-agent
-    docker run -d -t -e SERVER_URL="http://ci.loxal.net:8111" \
-        -e AGENT_NAME="rage" \
-        --name teamcity-agent \
-        -v ~/srv/teamcity_agent:/data/teamcity_agent/conf  \
-        jetbrains/teamcity-agent:latest
-
-#    docker exec teamcity-agent "apt install openjfx" # resolves build problem w/ JavaFx
-}
+#teamcity_agent() {
+#    docker rm -f teamcity-agent
+#    docker run -d -t -e SERVER_URL="http://ci.loxal.net:8111" \
+#        -e AGENT_NAME="rage" \
+#        --name teamcity-agent \
+#        -v ~/srv/teamcity_agent:/data/teamcity_agent/conf  \
+#        jetbrains/teamcity-agent:latest
+#
+##    docker exec teamcity-agent "apt install openjfx" # resolves build problem w/ JavaFx
+#}
 #teamcity_agent
 
 vault() {
@@ -72,16 +72,16 @@ vault() {
 }
 vault
 
-elasticsearch() {
-        docker rm -f elasticsearch
-        docker run -d --name elasticsearch \
-            -p 9200:9200 \
-            -p 9300:9300 \
-            elasticsearch:alpine
-
-#                -e transport.host=0.0.0.0 \
-#        -e discovery.zen.minimum_master_nodes=1 \
-}
+#elasticsearch() {
+#        docker rm -f elasticsearch
+#        docker run -d --name elasticsearch \
+#            -p 9200:9200 \
+#            -p 9300:9300 \
+#            elasticsearch:alpine
+#
+##                -e transport.host=0.0.0.0 \
+##        -e discovery.zen.minimum_master_nodes=1 \
+#}
 #elasticsearch # very dangerous when run without password protection
 
 heat_ledger() {
@@ -96,7 +96,7 @@ heat_ledger
 runNemServer() {
     cd ~/minion/miner/nem-server
     ./nix.runNis.sh &
-    sleep 15m
+#    sleep 15m
     ./nix.runNcc.sh &
     # start mining in browser
 }
@@ -108,17 +108,17 @@ run_misc() {
 }
 run_misc
 
-parity() {
-    docker rm -f parity
-    docker run -d -t --name parity  \
-        -p 8080:8080 \
-        -p 8180:8180 \
-        -p 8545:8545 \
-        -v ~/srv/parity:/root \
-        ethcore/parity:stable \
-        --jsonrpc-interface all \
-        --jsonrpc-hosts all
-
-#        --jsonrpc-interface '0.0.0.0'
-}
+#parity() {
+#    docker rm -f parity
+#    docker run -d -t --name parity  \
+#        -p 8080:8080 \
+#        -p 8180:8180 \
+#        -p 8545:8545 \
+#        -v ~/srv/parity:/root \
+#        ethcore/parity:stable \
+#        --jsonrpc-interface all \
+#        --jsonrpc-hosts all
+#
+##        --jsonrpc-interface '0.0.0.0'
+#}
 #parity
