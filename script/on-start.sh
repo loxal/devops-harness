@@ -77,7 +77,7 @@ vault
 
 runNxtServer() {
     cd ~/minion/miner/nxt
-    ./run.sh &
+    nohup ./run.sh &
 
 # Start forging...
 #    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
@@ -87,7 +87,7 @@ runNxtServer
 heat_ledger() {
     cd ~/minion/miner/heatledger-*
 #    screen -mS heatledger bin/heatledger
-    bin/heatledger &
+    nohup bin/heatledger &
 
 #     curl 'http://localhost:7733/api/v1/mining/start/secret%20phrase?api_key=PASSWORD'
 }
@@ -95,17 +95,17 @@ heat_ledger
 
 runNemServer() {
     cd ~/minion/miner/nem-server
-    ./nix.runNis.sh &
+    nohup ./nix.runNis.sh &
 #    sleep 15m
-    ./nix.runNcc.sh &
+    nohup ./nix.runNcc.sh &
     # start mining in browser
 }
-#runNemServer TODO re-enable
+runNemServer
 
 run_misc() {
-    ~/minion/miner/mine-zcash-cpu.sh &
+    nohup ~/minion/miner/mine-zcash-cpu.sh &
 }
-#run_misc TODO re-enable
+run_misc
 
 #parity() {
 #    docker rm -f parity
