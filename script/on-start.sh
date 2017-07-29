@@ -2,15 +2,6 @@
 
 # curl -sf http://me.loxal.net/script/on-start-sky.sh | sh -s -- --yes
 
-runNxtServer() {
-    cd ~/minion/miner/nxt
-    ./run.sh &
-
-# Start forging...
-#    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
-}
-
-
 #couchbase() {
 #    docker rm -f couchbase
 #    docker run -d --name couchbase \
@@ -84,6 +75,15 @@ vault
 #}
 #elasticsearch # very dangerous when run without password protection
 
+runNxtServer() {
+    cd ~/minion/miner/nxt
+    ./run.sh &
+
+# Start forging...
+#    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
+}
+runNxtServer
+
 heat_ledger() {
     cd ~/minion/miner/heatledger-*
 #    screen -mS heatledger bin/heatledger
@@ -100,12 +100,12 @@ runNemServer() {
     ./nix.runNcc.sh &
     # start mining in browser
 }
-runNemServer
+#runNemServer TODO re-enable
 
 run_misc() {
     ~/minion/miner/mine-zcash-cpu.sh &
 }
-run_misc
+#run_misc TODO re-enable
 
 #parity() {
 #    docker rm -f parity
