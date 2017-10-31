@@ -26,26 +26,26 @@
 #}
 #quizzer
 
-service_kit() {
-    docker rm -f service-kit
-    docker run -d -p 80:8080 --name service-kit loxal/service-kit:v1
-}
-service_kit
-
-teamcity_server() {
-    docker rm -f teamcity-server
-    docker run -d -t --name teamcity-server -v ~/srv/teamcity_server:/data/teamcity_server/datadir -v ~/srv/teamcity_server/logs:/opt/teamcity/logs -p 8111:8111 jetbrains/teamcity-server:2017.1.4
-
-    ~/buildAgent/bin/agent.sh start # run agent on host machine
-#    docker exec teamcity-server /opt/teamcity/buildAgent/bin/agent.sh start
-}
-teamcity_server
-
-muctool() {
-    docker rm -f muctool
-    docker run -d -p 80:8300 -p 443:8443 --env MY_ENV=muctool --env MY_ENV_SINGLE --label jvm_lang=kotlin --label sans-backing_service --name muctool loxal/muctool
-}
-muctool
+#service_kit() {
+#    docker rm -f service-kit
+#    docker run -d -p 80:8080 --name service-kit loxal/service-kit:v1
+#}
+##service_kit
+#
+#teamcity_server() {
+#    docker rm -f teamcity-server
+#    docker run -d -t --name teamcity-server -v ~/srv/teamcity_server:/data/teamcity_server/datadir -v ~/srv/teamcity_server/logs:/opt/teamcity/logs -p 8111:8111 jetbrains/teamcity-server:2017.1.4
+#
+#    ~/buildAgent/bin/agent.sh start # run agent on host machine
+##    docker exec teamcity-server /opt/teamcity/buildAgent/bin/agent.sh start
+#}
+##teamcity_server
+#
+#muctool() {
+#    docker rm -f muctool
+#    docker run -d -p 80:8300 -p 443:8443 --env MY_ENV=muctool --env MY_ENV_SINGLE --label jvm_lang=kotlin --label sans-backing_service --name muctool loxal/muctool
+#}
+#muctool
 
 #teamcity_agent() {
 #    docker rm -f teamcity-agent
@@ -81,43 +81,43 @@ muctool
 #}
 #elasticsearch # very dangerous when run without password protection
 
-runNxtServer() {
-    cd ~/minion/miner/nxt
-    nohup ./run.sh &
-    echo "runNxtServer started"
+#runNxtServer() {
+#    cd ~/minion/miner/nxt
+#    nohup ./run.sh &
+#    echo "runNxtServer started"
+#
+## Start forging...
+##    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
+#}
+#runNxtServer
 
-# Start forging...
-#    curl 'http://localhost:7876/nxt?requestType=startForging' --data 'secretPhrase=my+secret+phrase'
-}
-runNxtServer
+#heat_ledger() {
+#    cd ~/minion/miner/heatledger-*
+##    screen -mS heatledger bin/heatledger
+#    nohup bin/heatledger &
+#    echo "heat_ledger started"
+#
+## Start forging...
+##     curl 'http://localhost:7733/api/v1/mining/start/secret%20phrase?api_key=PASSWORD'
+#}
+#heat_ledger
 
-heat_ledger() {
-    cd ~/minion/miner/heatledger-*
-#    screen -mS heatledger bin/heatledger
-    nohup bin/heatledger &
-    echo "heat_ledger started"
+#runNemServer() {
+#    cd ~/minion/miner/nem-server
+#    nohup ./nix.runNis.sh &
+#    echo "runNemServer - nix.runNis.sh started"
+##    sleep 15m
+#    nohup ./nix.runNcc.sh &
+#    echo "runNemServer - nix.runNcc.sh started"
+#    # start mining in browser
+#}
+#runNemServer
 
-# Start forging...
-#     curl 'http://localhost:7733/api/v1/mining/start/secret%20phrase?api_key=PASSWORD'
-}
-heat_ledger
-
-runNemServer() {
-    cd ~/minion/miner/nem-server
-    nohup ./nix.runNis.sh &
-    echo "runNemServer - nix.runNis.sh started"
-#    sleep 15m
-    nohup ./nix.runNcc.sh &
-    echo "runNemServer - nix.runNcc.sh started"
-    # start mining in browser
-}
-runNemServer
-
-run_misc() {
-    nohup ~/minion/miner/mine-zcash-cpu.sh &
-    echo "run_misc - mine-zcash-cpu.sh started"
-}
-run_misc
+#run_misc() {
+#    nohup ~/minion/miner/mine-zcash-cpu.sh &
+#    echo "run_misc - mine-zcash-cpu.sh started"
+#}
+#run_misc
 
 echo "on-start script executed"
 
